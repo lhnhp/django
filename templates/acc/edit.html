@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block con %}
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="container mt-5 mb-5"  style="font-size: 20px; font-weight: bold; width: 60%;">
+            <h1><b>EDIT INFORMATION</b></h1>
+            
+            <div class="mb-3 mt-5">
+                <label class="form-label">USERNAME</label>
+                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{ user }}" name="uname">
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">PASSWORD</label>
+                <input type="password" class="form-control" id="exampleInputPassword1" name="upass" >
+            </div>
+            <div class="mb-3">
+                <label class="form-label">AGE</label>
+                <input type="number" class="form-control" aria-describedby="emailHelp" value="{{ user.age }}" name="uage">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">COMMENT</label>
+                <textarea class="form-control" name="com">{{ user.comment }}</textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">USERPIC</label>
+                <input type="file" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="upic">
+            </div>
+            <div class="text-end">
+                <a href="{% url 'acc:profile' %}"><button type="button" class="btn btn-dark">BACK</button></a>
+                <button class="btn btn-dark">UPDATE</button>
+            </div>
+
+        </div>
+    </form>
+
+
+
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+
+{% block con %}
+<div class="container mt-3">
+<h1><b>PDF 글자 뽑아내기 </b></h1><hr>
+</div>
+<div class="container mt-5 mb-5"> 
+    
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row mt-5>">
+            <div class="col-lg-10">
+                <input type="file" name="pdf" class="form-control form-control-sm" id="formFileSm">
+            </div>
+
+            <div class="col-lg-2">
+                <button class="btn btn-primary btn-sm" >변환</button>
+            </div>
+
+        </div>
+    </form>
+
+    <textarea class="form-control mt-5" style="height: 300px;" disabled>
+        {{st}}
+    </textarea>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

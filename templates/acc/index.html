@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block con %}
+    <div class="p-5 mb-4 bg-light rounded-3">
+        <div class="container-fluid py-5">
+            <h1 class="display-5 fw-bold">{{user}} 님 환영합니다! </h1>
+            <p class="col-md-8 fs-4">원하시는 기능을 선택해주세요</p>
+            <a href="{% url 'acc:profile' %}"><button class="btn btn-dark btn-lg" type="button" style="font-weight: bold;">PROFILE</button></a>
+            <a href="{% url 'board:index' %}"><button class="btn btn-dark btn-lg" type="button" style="font-weight: bold;">BOARD</button></a>
+            <a href="{% url 'trans:index' %}"><button class="btn btn-dark btn-lg" type="button" style="font-weight: bold;">TRANS</button></a>
+            <a href="{% url 'pdfread:index' %}"><button class="btn btn-dark btn-lg" type="button" style="font-weight: bold;">PDFREAD</button></a>
+            <a href="{% url 'vote:index' %}"><button class="btn btn-dark btn-lg" type="button" style="font-weight: bold;">VOTE</button></a>
+            <a href="{% url 'book:index' %}"><button class="btn btn-dark btn-lg" type="button" style="font-weight: bold;">BOOK</button></a>
+            
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block noauth %}
+    <div class="p-5 mb-4 bg-light rounded-3">
+        <div class="container-fluid py-5">
+            <h1 class="display-5 fw-bold">로그인이 필요합니다. </h1>
+            <p class="col-md-8 fs-4">아래 버튼 혹은 상단의 메뉴바를 통해 로그인 해주세요</p>
+            <a href="{% url 'acc:login' %}"><button class="btn btn-dark btn-lg" type="button" style="font-weight: bold;">LOGIN</button></a>
+        </div>
+    </div>
+{% endblock %}

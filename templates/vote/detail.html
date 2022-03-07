@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+
+{% load mathfilters %}
+{% block con %}
+
+    <div class="container mt-5 "><h1><b>{{t.subject}}</b></h1>
+
+        <div class="row mt-5">
+            
+            <div class="col-lg-8">
+            
+                <textarea class"form-control" style="height: 300px; width: 550px;" disabled>{{ t.content}}</textarea>
+                
+            </div>
+
+            <div class="col-lg-4">
+
+                <img src="{{t.maker.getpic}}" width="300px" height= "300px">
+                <div class="text-left mt-2">
+                    <h4>made by <b>{{t.maker}}</b></h4>
+                    pub.date {{ t.pubdate | date:'y-m-d-D / H:i' }}
+                </div>
+
+                <!-- 북마크버튼 -->
+                <button type="button" class="btn btn-secondary btn-lg" data-bs-toggle="modal" data-bs-target="#book">
+                    BOOKMARK
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- Modal 북마크 -->
+        <div class="modal fade" id="book" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">북마크하실건가요?</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form method="post" action="{% url 'book:create' %}">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                        
+                            <input type="hidden" name="sname" value="[투표]{{t.subject}}">
+                            <input type="hidden" name="surl" value="{{ request.path }}">
+                            
+                            <b>사이트설명</b> <input type="text" name="scom" class="form-control mt-2"> 
+
+
+                        </div>
+
+                        <div class="modal-footer">
+                            <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+                                <input type="checkbox" class="btn-check mt-5" id="btncheck2" autocomplete="off" name="impo">
+                                <label class="btn btn-outline-warning" for="btncheck2">♡</label>
+                            </div>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                            <button class="btn btn-primary">추가</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <hr>
+
+        <form method="post" action="{% url 'vote:vote' t.id %}">
+            {%csrf_token%}
+
+            <div class="row mt-5" >
+                {% for i in cset %}
+                    <div class="col-lg-4 mt-3 mb-4">
+                    
+
+                        <div class="card mt-3" style="width: 18rem; background-color: rgb(62, 48, 48); color: rgb(211, 240, 19)">
+
+                            <img src="{{ i.chpic.url }}" class="card-img-top" alt="...">
+                            <div class="card-body mt-3">
+                                <h5 class="card-title text-center"><b>{{ i.chname }}</b></h5><br>
+                                <p class="card-text text-left" disabled>{{ i.chcom }}</p>
+                            </div>
+                            
+                            {% if user in t.voter.all %}
+                                <div class="progress mt-3 mb-3">
+                                    <div class="progress-bar bg-info progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: {{ i.choicer.all.count | div:t.voter.all.count | mul:100 }}%">{{ i.choicer.all.count | div:t.voter.all.count | mul:100 }} %</div>
+                                </div>
+                            {% else %}
+                                <div class="text-center">
+                                    <input class="form-check-input" type="radio" name="ch" value="{{i.id}}" {% if forloop.first %} checked {% endif %}>선택
+                                </div>
+                            {%endif%}
+
+                        </div>
+
+                    </div>
+                {% endfor%}
+            </div>
+            <hr>
+            <div class="text-end">
+                {% if user in t.voter.all %}
+                    <div class= "text-end mt-4">
+                        <a href="{% url 'vote:cancle' t.id %}"><button type="button" class="btn btn-dark btn-lg">투표취소</button></a>
+                    </div>
+                {% else %}
+                    <div class= "text-end mt-4">
+                        <button class="btn btn-dark btn-lg ">투표하기</button>
+                    </div>
+                {%endif%}
+            </div>
+
+            
+
+        </form>
+
+    </div>
+
+    <style>
+    
+    img {
+            width: 250px;
+            height: 200px; 
+            border-radius: 90%;
+            overflow: hidden;
+        }
+
+    </style>
+
+
+
+
+{% endblock %}

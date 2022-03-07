@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+
+{% block con %}
+
+    <div class="container mt-5 mb-5">
+        <h1><b>BOOK MARK CREATE</b></h1>
+        
+        <form method="post">
+            {% csrf_token %}
+            <div class="text-end">
+                <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+                    <input type="checkbox" class="btn-check" id="btncheck2" autocomplete="off" name="impo">
+                    <label class="btn btn-outline-warning" for="btncheck2">♡</label>
+                </div>
+            </div>
+
+            <input type="text" class="form-control mt-3 mb-3" placeholder="site name" name="sname">
+            <input type="text" class="form-control mt-3 mb-3" placeholder="site url" name="surl">
+            <textarea class="form-control" placeholder="site info" name="scom"></textarea>
+
+            <div class="text-end">
+                <button class="btn-success"> 생성 </button>
+            </div>
+        </form>
+
+    </div>
+
+
+
+{% endblock %}

@@ -1,0 +1,112 @@
+
+{% extends 'base.html' %}
+
+{% load mathfilters %}
+
+{% block con %}
+
+    <div class="container mt-3" >
+        <h1><b>BOARD</b></h1>
+
+        <div class="text-end">
+            <a href="{% url 'board:create' %}" class="btn btn-success">게시글생성</a>
+        </div>
+
+        <table class="table mt-3 table-hover">
+            <thead style="background-color: black; color:rgb(168, 194, 22); font-size: 20px;">
+                <tr>
+                    <th scope="col">NO</th>
+                    <th scope="col">SUBJECT</th>
+                    <th scope="col">SUMMARY</th>
+                    <th scope="col">WRITER</th>
+                    <th scope="col">LIKEY</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if bset %}
+                    {% for i in bset %}
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td><a class="sub" href="{% url 'board:detail' i.id %}">{{ i.subject }}</a></td>
+                        <td>{{ i.summary }}</td>
+                        <td>{{ i.writer.username }}</td>
+                        <td>{{ i.likey.all.count }}</td>
+                        
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <h1><b>게시글을 작성해주세요</b></h1>
+                {% endif %}
+            </tbody>
+        </table>
+
+
+        <div class="page">
+            {% if bset.has_previous %}
+                <a href="{% url 'board:index' %}?page=1&cate={{cate}}&kw={{kw}}"><button class="btn btn-secondary">처음</button></a>
+                <a href="{% url 'board:index' %}?page={{bset.previous_page_number}}&cate={{cate}}&kw={{kw}}"><button class="btn btn-secondary">이전</button></a>
+            {% else %}
+                <button disabled class="btn btn-secondary">처음</button>
+                <button disabled class="btn btn-secondary">이전</button>
+            {% endif %}
+            
+            
+            {% for i in bset.paginator.page_range %}
+                {% if i >= bset.number|sub:5 and i <= bset.number|add:4 %}
+                    <div class="btn-group me-2" role="group" aria-label="Second group">
+                        <a href="{% url 'board:index' %}?page={{i}}&cate={{cate}}&kw={{kw}}"><button class="btn btn-secondary" {% if bset.number == i %}disabled{% endif %}>{{i}}</button></a>
+                    </div>
+
+                {% endif %}
+            {% endfor %}
+            
+            
+            {% if bset.has_next %}
+                <a href="{% url 'board:index' %}?page={{bset.next_page_number}}&cate={{cate}}&kw={{kw}}"><button class="btn btn-secondary">다음</button></a>
+                <a href="{% url 'board:index' %}?page={{bset.paginator.num_pages}}&cate={{cate}}&kw={{kw}}"><button class="btn btn-secondary">마지막</button></a>
+            {% else %}
+                <button disabled class="btn btn-secondary">다음</button>
+                <button disabled class="btn btn-secondary">마지막</button>
+            {% endif %}
+        </div>
+
+    </div>
+
+    <form>
+        <div class="page">
+            <select name="cate">
+                <option selected> 검색 </option>
+                <option value="sub" {% if cate == "sub" %}selected{% endif %} >제목</option>
+                <option value="wri" {% if cate == "wri" %}selected{% endif %} >글쓴이</option>
+                <option value="con" {% if cate == "con" %}selected{% endif %} >내용</option>
+            </select>
+        
+            <input type="text" size="15" name="kw" value="{{kw}}">
+            <button>검색</button>
+        </div>
+    </form>
+    
+
+    <style>
+        td , tr {
+            text-align : center;
+        }
+        a.sub {
+                    text-decoration: none;
+            color:black;
+            font-weight: bold;
+            font-size: 17px;
+        }
+        a.sub:hover {
+            color:red;
+            font-size:18px;
+        }
+        div.page{
+            text-align: center;
+
+        }
+
+    </style>
+    
+
+{% endblock %}

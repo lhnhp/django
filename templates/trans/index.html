@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+
+{% block con %}
+    <div class="container mt-3"><h1><b>번역기</b></h1></div>
+    <form method="GET">
+
+        <div class="row mt-5" style ="margin: 75px;">
+            <hr>
+            <div class="col-lg-5 container" style ="margin: auto;"> 
+                <table>
+                    <tr>
+                        <select name="as" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" >
+                            {% for code, name in ndict.items %}
+                            <option value="{{ code }}" {% if as %}
+                            {% if as == code %}selected{% endif %}{% else %}
+                            {% if code == 'set' %}selected{% endif %}{% endif %}>{{ name | upper }}</option>
+                        {% endfor %}
+       
+                            
+                        </select>
+                    </tr>
+                    <td><textarea name="to" placeholder="번역할내용을 입력해주세요" class="form-control" style="height:300px; width: 715px;"></textarea> </td>
+                </table>
+            </div>
+            <div class="col-lg-2 text-center mt-25 " style="margin: auto ;">
+                <button class="btn btn-primary btn-lg">번역하기</button>
+            </div>
+            <div class="col-lg-5 " style="margin: auto ;">
+                <table>
+                    <tr>
+                        <select name="be" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" >
+                            {% for code, name in ndict.items %}
+                            <option value="{{ code }}" {% if be %}
+                            {% if be == code %}selected{% endif %}{% else %}
+                            {% if code == 'set' %}selected{% endif %}{% endif %}>{{ name | upper }}</option>
+                        {% endfor %}
+                        </select>
+                    </tr>
+                    <td><textarea  disabled class="form-control" style="height: 300px; width: 715px;" placeholder="변역된 내용이 출력됩니다.">{{end}}</textarea>
+
+                    </td>
+                </table>
+            </div>
+
+        </div>
+    </form>
+
+
+
+
+
+
+
+{% endblock %}
